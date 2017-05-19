@@ -1,7 +1,5 @@
 package com.broilogabriel
 
-import java.lang.Exception
-
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
