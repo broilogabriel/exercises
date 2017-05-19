@@ -1,5 +1,7 @@
 package com.broilogabriel
 
+import org.slf4j.LoggerFactory
+
 import scala.io.Source
 
 /**
@@ -8,10 +10,11 @@ import scala.io.Source
 object Main extends App {
 
   val rollingWindow = 60
+  val logger = LoggerFactory.getLogger(this.getClass)
 
   if (args.nonEmpty) {
-    println("T          V       N RS      MinV    MaxV")
-    println("---------------------------------------------")
+    logger.info("T          V       N RS      MinV    MaxV")
+    logger.info("---------------------------------------------")
     Source.fromFile(args.head).getLines()
       .map(line => {
         val list = line.split("[ \\t]")
@@ -21,7 +24,7 @@ object Main extends App {
         (acc, elem) => {
           val measures = acc.measures.filter(_.timestamp > elem.timestamp - rollingWindow) :+ elem
           val analyzed = Analyzed(elem.timestamp, elem.price, measures)
-          println(analyzed)
+          logger.info(analyzed.toString)
           analyzed
         }
       }
